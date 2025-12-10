@@ -8,7 +8,8 @@ def generate_ics_from_excel(excel_file):
     ics = [
         'BEGIN:VCALENDAR',
         'VERSION:2.0',
-        'PRODID:-//GDUT//CN',
+        'PRODID:-//JicoHe//ClassTable//CN',
+        'METHOD:PUBLISH',
         'X-WR-CALNAME:广工课程表',
         'X-WR-TIMEZONE:Asia/Shanghai',
     ]
@@ -51,6 +52,7 @@ def generate_ics_from_excel(excel_file):
                 
                 # 生成唯一ID
                 uid = str(uuid.uuid4())
+                dtstamp = datetime.now().strftime('%Y%m%dT%H%M%S')
                 
                 description = f"教师: {teacher}\\n班级: {class_name}"
                 if summary:
@@ -60,6 +62,7 @@ def generate_ics_from_excel(excel_file):
                 event_block = [
                     'BEGIN:VEVENT',
                     f'UID:{uid}',
+                    f'DTSTAMP:{dtstamp}',
                     f'DTSTART:{start_dt:%Y%m%dT%H%M%S}',
                     f'DTEND:{end_dt:%Y%m%dT%H%M%S}',
                     f'SUMMARY:{course_name}',
@@ -85,8 +88,8 @@ def generate_ics_from_excel(excel_file):
     ics.append('END:VCALENDAR')
     
     output_file = 'ClassTable.ics'
-    with open(output_file, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(ics))
+    with open(output_file, 'w', encoding='utf-8', newline='') as f:
+        f.write('\r\n'.join(ics))
     print(f'✓ ICS文件已生成: {output_file} (含 {REMINDER_MINUTES} 分钟课前提醒)')
 
 if __name__ == '__main__':
