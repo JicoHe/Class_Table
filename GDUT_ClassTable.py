@@ -72,7 +72,6 @@ def parse_csv_file(file_path):
                     'summary': str(row['授课内容简介']).strip() if pd.notna(row['授课内容简介']) else ''
                 })
             except Exception as e:
-                # print(f"跳过一行: {e}")
                 continue
                 
         return courses
